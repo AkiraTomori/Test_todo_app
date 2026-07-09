@@ -30,5 +30,14 @@ services:
       - db
     command: sh -c "npx -y prisma db push && npx -y prisma db seed && npm start"
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
 volumes:
   pgdata:
