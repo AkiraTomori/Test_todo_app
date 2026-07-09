@@ -51,11 +51,11 @@ const TodoApp = () => {
         description: todo.description,
         is_completed: !todo.is_completed
       };
-      await axiosClient.put(`/todos/${todo.id}`, updatedTodo);
+      const res = await axiosClient.put(`/todos/${todo.id}`, updatedTodo);
       
       // Update local state or refetch based on filter
       if (filter === 'all') {
-        setTodos(todos.map(t => t.id === todo.id ? { ...t, is_completed: !t.is_completed } : t));
+        setTodos(todos.map(t => t.id === todo.id ? res.data : t));
       } else {
         // If we're in filtered view, toggling might mean removing it from current view
         setTodos(todos.filter(t => t.id !== todo.id));
@@ -78,8 +78,8 @@ const TodoApp = () => {
 
   const handleUpdateTodo = async (id, data) => {
     try {
-      await axiosClient.put(`/todos/${id}`, data);
-      setTodos(todos.map(t => t.id === id ? { ...t, ...data } : t));
+      const res = await axiosClient.put(`/todos/${id}`, data);
+      setTodos(todos.map(t => t.id === id ? res.data : t));
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || 'Có lỗi khi cập nhật công việc');

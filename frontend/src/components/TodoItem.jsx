@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
-import { Trash2, Check, Edit2, X, Save } from 'lucide-react';
+import { Trash2, Check, Edit2, X, Save, Clock } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleString('vi-VN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+};
 
 const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -76,12 +88,22 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
         </h3>
         {todo.description && (
           <p className={clsx(
-            "text-sm mt-1 line-clamp-2",
+            "text-sm mt-1 mb-2 line-clamp-2",
             todo.is_completed ? "text-gray-400" : "text-gray-600"
           )}>
             {todo.description}
           </p>
         )}
+        <div className="flex items-center gap-1.5 mt-2 text-xs text-gray-400 font-medium">
+          <Clock size={12} />
+          <span>Tạo lúc: {formatDate(todo.created_at)}</span>
+          {todo.updated_at && todo.updated_at !== todo.created_at && (
+            <>
+              <span className="mx-1">•</span>
+              <span>Sửa lúc: {formatDate(todo.updated_at)}</span>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="flex-shrink-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
