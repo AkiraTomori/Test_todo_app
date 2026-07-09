@@ -1,6 +1,6 @@
 # 🎯 Đặc tả Yêu cầu & Tính năng (Features Specification)
 
-[cite_start]Tài liệu này định nghĩa chi tiết các tính năng cần phát triển cho ứng dụng Quản lý công việc (Todo List)[cite: 3].
+Tài liệu này định nghĩa chi tiết các tính năng cần phát triển cho ứng dụng Quản lý công việc.
 
 ## I. Yêu cầu chức năng (Functional Requirements)
 
