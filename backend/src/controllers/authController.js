@@ -17,8 +17,13 @@ const authController = {
 
       const hash = await bcrypt.hash(password, 10);
       const newUser = await userModel.createUser(username, hash);
+      const token = jwt.sign(
+        { id: newUser.id, username: newUser.username },
+        process.env.JWT_SECRET,
+        { expiresIn: '1d' }
+      );
 
-      res.status(201).json({ success: true, data: newUser });
+      res.status(201).json({ success: true, token, user: newUser });
     } catch (err) {
       next(err);
     }
@@ -47,7 +52,7 @@ const authController = {
         { expiresIn: '1d' }
       );
 
-      res.json({ success: true, token });
+      res.json({ success: true, token, user: { id: user.id, username: user.username } });
     } catch (err) {
       next(err);
     }
