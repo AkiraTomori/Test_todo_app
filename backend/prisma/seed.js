@@ -37,7 +37,33 @@ async function main() {
     });
     console.log('Seeded database with user: admin');
   } else {
-    console.log('Seed data already exists.');
+    console.log('Admin user already exists.');
+  }
+
+  const existingGuest = await prisma.user.findUnique({
+    where: { username: 'guest' },
+  });
+
+  if (!existingGuest) {
+    const password_hash = await bcrypt.hash('guest123', 10);
+    await prisma.user.create({
+      data: {
+        username: 'guest',
+        password_hash,
+        todos: {
+          create: [
+            {
+              title: 'Chào mừng người dùng mới',
+              description: 'Đây là công việc mẫu của người dùng guest',
+              is_completed: false,
+            }
+          ],
+        },
+      },
+    });
+    console.log('Seeded database with user: guest');
+  } else {
+    console.log('Guest user already exists.');
   }
 }
 

@@ -15,11 +15,7 @@ const TodoApp = () => {
   const fetchTodos = async () => {
     try {
       setLoading(true);
-      let url = '/todos';
-      if (filter === 'active') url += '?status=false';
-      if (filter === 'completed') url += '?status=true';
-      
-      const res = await axiosClient.get(url);
+      const res = await axiosClient.get('/todos');
       setTodos(res.data || []);
     } catch (error) {
       console.error("Failed to fetch todos", error);
@@ -30,14 +26,20 @@ const TodoApp = () => {
 
   useEffect(() => {
     fetchTodos();
-  }, [filter]);
+  }, []); // Only fetch on mount
+
+  // Lọc Todo tại Frontend
+  const displayedTodos = todos.filter(todo => {
+    if (filter === 'active') return !todo.is_completed;
+    if (filter === 'completed') return todo.is_completed;
+    return true;
+  });
 
   const handleAddTodo = async (data) => {
     try {
       const res = await axiosClient.post('/todos', data);
-      if (filter !== 'completed') {
-        setTodos([res.data, ...todos]);
-      }
+      // Luôn thêm vào mảng gốc, việc hiển thị hay ẩn ở tab nào sẽ do displayedTodos quyết định
+      setTodos([res.data, ...todos]);
     } catch (error) {
       console.error(error);
       alert('Có lỗi khi thêm công việc');
@@ -53,13 +55,8 @@ const TodoApp = () => {
       };
       const res = await axiosClient.put(`/todos/${todo.id}`, updatedTodo);
       
-      // Update local state or refetch based on filter
-      if (filter === 'all') {
-        setTodos(todos.map(t => t.id === todo.id ? res.data : t));
-      } else {
-        // If we're in filtered view, toggling might mean removing it from current view
-        setTodos(todos.filter(t => t.id !== todo.id));
-      }
+      // Luôn cập nhật state gốc, mảng hiển thị (displayedTodos) sẽ tự động ẩn đi dựa theo filter
+      setTodos(todos.map(t => t.id === todo.id ? res.data : t));
     } catch (error) {
       console.error(error);
       alert('Có lỗi khi cập nhật công việc');
@@ -121,7 +118,7 @@ const TodoApp = () => {
           <div className="flex justify-center py-12">
             <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
           </div>
-        ) : todos.length === 0 ? (
+        ) : displayedTodos.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 border-dashed">
             <div className="text-gray-300 flex justify-center mb-4">
               <CheckSquare size={48} strokeWidth={1} />
@@ -131,7 +128,7 @@ const TodoApp = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            {todos.map(todo => (
+            {displayedTodos.map(todo => (
               <TodoItem 
                 key={todo.id} 
                 todo={todo} 
