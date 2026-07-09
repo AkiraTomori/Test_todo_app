@@ -76,6 +76,16 @@ const TodoApp = () => {
     }
   };
 
+  const handleUpdateTodo = async (id, data) => {
+    try {
+      await axiosClient.put(`/todos/${id}`, data);
+      setTodos(todos.map(t => t.id === id ? { ...t, ...data } : t));
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || 'Có lỗi khi cập nhật công việc');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 font-sans">
       <header className="bg-white shadow-sm sticky top-0 z-10">
@@ -126,7 +136,8 @@ const TodoApp = () => {
                 key={todo.id} 
                 todo={todo} 
                 onToggle={handleToggleTodo} 
-                onDelete={handleDeleteTodo} 
+                onDelete={handleDeleteTodo}
+                onUpdate={handleUpdateTodo}
               />
             ))}
           </div>
