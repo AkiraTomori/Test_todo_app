@@ -14,5 +14,21 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: todo_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@todo_postgres:5432/todo_db?schema=public
+      - JWT_SECRET=your_jwt_secret_key_here
+      - PORT=3000
+    depends_on:
+      - db
+    command: sh -c "npx -y prisma db push && npx -y prisma db seed && npm start"
+
 volumes:
   pgdata:
