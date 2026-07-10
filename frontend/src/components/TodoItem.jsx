@@ -37,10 +37,11 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
 
   if (isEditing) {
     return (
-      <div className="flex flex-col gap-3 p-4 bg-white rounded-xl shadow-sm border border-indigo-200">
+      <div data-testid="todo-item" className="flex flex-col gap-3 p-4 bg-white rounded-xl shadow-sm border border-indigo-200">
         <input
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
+          data-testid="todo-edit-title-input"
           className="w-full text-lg px-3 py-2 bg-gray-50 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
           placeholder="Tên công việc..."
         />
@@ -54,7 +55,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
           <button onClick={handleCancel} className="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded-md flex items-center gap-1 transition-colors">
             <X size={16} /> Hủy
           </button>
-          <button onClick={handleSave} className="px-3 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-md flex items-center gap-1 transition-colors">
+          <button onClick={handleSave} data-testid="todo-edit-save-btn" className="px-3 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-md flex items-center gap-1 transition-colors">
             <Save size={16} /> Lưu
           </button>
         </div>
@@ -63,12 +64,15 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
   }
 
   return (
-    <div className={twMerge(
+    <div 
+      data-testid="todo-item"
+      className={twMerge(
       "group flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md",
       todo.is_completed && "bg-gray-50 opacity-75"
     )}>
       <button 
         onClick={() => onToggle(todo)}
+        data-testid="todo-toggle-btn"
         className={clsx(
           "flex-shrink-0 w-6 h-6 mt-1 rounded-full border-2 flex items-center justify-center transition-colors",
           todo.is_completed 
@@ -80,7 +84,9 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
       </button>
 
       <div className="flex-grow min-w-0">
-        <h3 className={clsx(
+        <h3 
+          data-testid="todo-item-title"
+          className={clsx(
           "text-lg font-semibold truncate transition-colors",
           todo.is_completed ? "text-gray-400 line-through" : "text-gray-800"
         )}>
@@ -109,6 +115,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
       <div className="flex-shrink-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         <button 
           onClick={() => setIsEditing(true)}
+          data-testid="todo-edit-btn"
           className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
           title="Sửa công việc"
         >
@@ -116,6 +123,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
         </button>
         <button 
           onClick={() => onDelete(todo.id)}
+          data-testid="todo-delete-btn"
           className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
           title="Xóa công việc"
         >

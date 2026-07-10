@@ -41,6 +41,7 @@ const Login = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">Tên đăng nhập</label>
             <input 
               {...register('username')} 
+              data-testid="login-username-input"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow" 
               placeholder="Nhập tên tài khoản"
             />
@@ -51,6 +52,7 @@ const Login = () => {
             <input 
               type="password" 
               {...register('password')} 
+              data-testid="login-password-input"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow" 
               placeholder="Nhập mật khẩu"
             />
@@ -58,6 +60,7 @@ const Login = () => {
           </div>
           <button 
             type="submit" 
+            data-testid="login-submit-btn"
             disabled={isSubmitting}
             className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition-colors"
           >
