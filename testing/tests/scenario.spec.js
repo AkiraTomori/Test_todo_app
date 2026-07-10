@@ -59,6 +59,7 @@ test.describe('Scenario Testing - Life histories & Abuse', () => {
     // Bước 5: [Kết thúc] Xóa task vì cuối cùng sếp bảo không cần báo cáo nữa
     const deletePromise = page.waitForResponse(res => res.url().includes('/api/todos') && res.request().method() === 'DELETE');
     await updatedTaskItem.getByTestId('todo-delete-btn').click();
+    await page.getByRole('button', { name: 'Đồng ý xóa' }).click();
     await deletePromise;
 
     // Xác nhận bốc hơi
@@ -100,6 +101,7 @@ test.describe('Scenario Testing - Life histories & Abuse', () => {
     for (let i = 0; i < 2; i++) {
         const deletePromise = page.waitForResponse(res => res.url().includes('/api/todos') && res.request().method() === 'DELETE');
         await page.getByTestId('todo-item').first().getByTestId('todo-delete-btn').click();
+        await page.getByRole('button', { name: 'Đồng ý xóa' }).click();
         await deletePromise;
     }
   });

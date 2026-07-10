@@ -25,7 +25,7 @@ axiosClient.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.status === 401 && !error.config.url.includes('/auth/login') && !error.config.url.includes('/auth/register')) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';

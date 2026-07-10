@@ -109,6 +109,8 @@ test.describe('Todo CRUD & Filtering Flow', () => {
     
     // Click nút thùng rác
     await taskItem.getByTestId('todo-delete-btn').click();
+    // Bấm đồng ý trên hộp thoại SweetAlert2
+    await page.getByRole('button', { name: 'Đồng ý xóa' }).click();
 
     // Sẽ biến mất khỏi danh sách
     await expect(page.getByTestId('todo-item-title').filter({ hasText: deleteTaskTitle })).not.toBeVisible();
