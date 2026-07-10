@@ -1,4 +1,4 @@
-name: Playwright E2E Tests
+name: Automated Tests (Unit & E2E)
 
 on:
   push:
@@ -20,26 +20,25 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Start services (Docker Compose)
-      run: docker compose up -d --build
-
-    - name: Wait for services to be ready
-      run: |
-        echo "Waiting for backend and frontend to be up..."
-        # Đợi 20 giây để DB init, Prisma chạy seed và Server chạy lên
-        sleep 20
-        # Kiểm tra backend (curl) - nếu backend có healthcheck thì tốt, hiện tại giả lập sleep
-        curl -s http://localhost:3000/api/todos || echo "Backend might not be fully up yet, but we will try..."
-
     - name: Install Testing Dependencies
       working-directory: ./testing
       run: npm ci
+
+    - name: Run Unit Tests (Jest)
+      working-directory: ./testing
+      run: npx jest --coverage
+
+    - name: Start services (Docker Compose)
+      run: docker compose up -d --build
+
+    - name: Wait for backend to be ready
+      run: sleep 20
 
     - name: Install Playwright Browsers
       working-directory: ./testing
       run: npx playwright install --with-deps
 
-    - name: Run Playwright tests
+    - name: Run Playwright E2E tests
       working-directory: ./testing
       run: npx playwright test
 
