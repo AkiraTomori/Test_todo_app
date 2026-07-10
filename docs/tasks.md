@@ -24,22 +24,22 @@ Dự án có thời gian thực hiện là 02 ngày. Cần ưu tiên hoàn thàn
 - [X] Cấu hình Error Handling Middleware để quản lý lỗi đồng nhất.
 
 ## Giai đoạn 3: Phát triển Frontend (Ngày 2 - Sáng)
-- [ ] Thiết lập cấu trúc Component (TodoList, TodoItem, TodoForm, FilterBar).
-- [ ] Viết API Services ở Frontend (sử dụng Axios hoặc Fetch) để gọi Backend.
-- [ ] Cài đặt UI & Responsive Layout (có thể dùng TailwindCSS hoặc CSS modules).
-- [ ] Tích hợp tính năng:
-  - [ ] Hiển thị danh sách Todo và gọi API GET.
-  - [ ] Xử lý form thêm mới Todo và gọi API POST.
-  - [ ] Xử lý nút Check/Uncheck và gọi API PUT.
-  - [ ] Xử lý nút Xóa và gọi API DELETE.
-- [ ] Cài đặt tính năng Lọc và Tìm kiếm trên giao diện.
+- [X] Thiết lập cấu trúc Component (TodoList, TodoItem, TodoForm, FilterBar).
+- [X] Viết API Services ở Frontend (sử dụng Axios hoặc Fetch) để gọi Backend.
+- [X] Cài đặt UI & Responsive Layout (có thể dùng TailwindCSS hoặc CSS modules).
+- [X] Tích hợp tính năng:
+  - [X] Hiển thị danh sách Todo và gọi API GET.
+  - [X] Xử lý form thêm mới Todo và gọi API POST.
+  - [X] Xử lý nút Check/Uncheck và gọi API PUT.
+  - [X] Xử lý nút Xóa và gọi API DELETE.
+- [X] Cài đặt tính năng Lọc hoặc Tìm kiếm trên giao diện.
 
 ## Giai đoạn 4: Hoàn thiện & Khuyến khích (Ngày 2 - Chiều)
 - [ ] Viết Unit Test (Jest/Mocha) cho ít nhất 1-2 hàm trong Service layer của Backend.
-- [ ] Đóng gói Docker:
-  - [ ] Viết `Dockerfile` cho Frontend.
-  - [ ] Viết `Dockerfile` cho Backend.
-  - [ ] Viết `docker-compose.yml` để chạy cụm (Postgres + Node + React).
+- [X] Đóng gói Docker:
+  - [X] Viết `Dockerfile` cho Frontend.
+  - [X] Viết `Dockerfile` cho Backend.
+  - [X] Viết `docker-compose.yml` để chạy cụm (Postgres + Node + React).
 - [ ] Triển khai (Deployment): Setup môi trường trên Google Cloud Platform (GCP) để đưa ứng dụng lên online.
-- [ ] Kiểm tra lại toàn bộ source code, dọn dẹp console.log.
-- [ ] Cập nhật file `README.md` với đầy đủ hướng dẫn chạy dự án.
+- [X] Kiểm tra lại toàn bộ source code, dọn dẹp console.log.
+- [X] Cập nhật file `README.md` với đầy đủ hướng dẫn chạy dự án.
