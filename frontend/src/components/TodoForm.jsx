@@ -33,6 +33,7 @@ const TodoForm = ({ onAdd }) => {
         <div>
           <input 
             {...register('title')} 
+            data-testid="todo-title-input"
             placeholder="Thêm công việc mới..." 
             className="w-full text-lg px-4 py-3 bg-gray-50 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
             onClick={() => setIsExpanded(true)}
@@ -44,6 +45,7 @@ const TodoForm = ({ onAdd }) => {
           <div className="animate-in fade-in slide-in-from-top-2 duration-300">
             <textarea
               {...register('description')}
+              data-testid="todo-desc-input"
               placeholder="Mô tả chi tiết (không bắt buộc)"
               className="w-full px-4 py-3 bg-gray-50 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none h-24"
             />
@@ -59,6 +61,7 @@ const TodoForm = ({ onAdd }) => {
               </button>
               <button 
                 type="submit" 
+                data-testid="todo-submit-btn"
                 disabled={isSubmitting}
                 className="flex items-center gap-2 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50"
               >

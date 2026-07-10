@@ -13,6 +13,7 @@ const FilterBar = ({ currentFilter, onFilterChange }) => {
       {filters.map(filter => (
         <button
           key={filter.id}
+          data-testid={`filter-${filter.id}-btn`}
           onClick={() => onFilterChange(filter.id)}
           className={clsx(
             "px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200",

@@ -53,7 +53,7 @@ const todoService = {
     }
 
     const updatedTitle = title !== undefined ? title.trim() : todo.title;
-    const updatedDesc = description !== undefined ? description.trim() : todo.description;
+    const updatedDesc = description !== undefined ? (description ? description.trim() : null) : todo.description;
     const updatedStatus = is_completed !== undefined ? is_completed : todo.is_completed;
 
     return await todoModel.updateTodo(todoId, updatedTitle, updatedDesc, updatedStatus);
