@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Trash2, Check, Edit2, X, Save, Clock } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 const formatDate = (dateString) => {
   if (!dateString) return '';
@@ -22,7 +24,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
 
   const handleSave = () => {
     if (!editTitle.trim()) {
-      alert('Tên công việc không được để trống!');
+      toast.error('Tên công việc không được để trống!');
       return;
     }
     onUpdate(todo.id, { title: editTitle, description: editDesc });
@@ -122,7 +124,22 @@ const TodoItem = ({ todo, onToggle, onDelete, onUpdate }) => {
           <Edit2 size={18} />
         </button>
         <button 
-          onClick={() => onDelete(todo.id)}
+          onClick={() => {
+            Swal.fire({
+              title: 'Bạn có chắc chắn muốn xóa?',
+              text: "Hành động này không thể hoàn tác!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#ef4444',
+              cancelButtonColor: '#6b7280',
+              confirmButtonText: 'Đồng ý xóa',
+              cancelButtonText: 'Hủy'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                onDelete(todo.id);
+              }
+            });
+          }}
           data-testid="todo-delete-btn"
           className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
           title="Xóa công việc"

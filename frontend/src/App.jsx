@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import TodoApp from './pages/TodoApp';
+import { Toaster } from 'react-hot-toast';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -27,6 +28,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <Toaster position="top-right" />
         <Routes>
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />

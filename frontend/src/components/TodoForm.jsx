@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Plus } from 'lucide-react';
+import { Plus, Loader2 } from 'lucide-react';
 
 const schema = yup.object({
   title: yup.string()
@@ -65,7 +65,7 @@ const TodoForm = ({ onAdd }) => {
                 disabled={isSubmitting}
                 className="flex items-center gap-2 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium shadow-sm transition-colors disabled:opacity-50"
               >
-                <Plus size={20} />
+                {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <Plus size={20} />}
                 {isSubmitting ? 'Đang thêm...' : 'Thêm việc'}
               </button>
             </div>

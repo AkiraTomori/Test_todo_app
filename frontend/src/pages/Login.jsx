@@ -4,7 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { LogIn } from 'lucide-react';
+import { LogIn, Loader2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const schema = yup.object({
   username: yup.string().required('Tên đăng nhập không được để trống').min(3, 'Tên đăng nhập ít nhất 3 ký tự'),
@@ -21,9 +22,10 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       await login(data.username, data.password);
+      toast.success('Đăng nhập thành công!');
       navigate('/todos');
     } catch (error) {
-      alert(error.response?.data?.message || 'Đăng nhập thất bại!');
+      toast.error(error.response?.data?.message || 'Đăng nhập thất bại!');
     }
   };
 
@@ -62,9 +64,14 @@ const Login = () => {
             type="submit" 
             data-testid="login-submit-btn"
             disabled={isSubmitting}
-            className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition-colors"
+            className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
           >
-            {isSubmitting ? 'Đang xử lý...' : 'Đăng nhập'}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="animate-spin" size={20} />
+                Đang xử lý...
+              </>
+            ) : 'Đăng nhập'}
           </button>
         </form>
         <p className="mt-6 text-center text-gray-600 text-sm">

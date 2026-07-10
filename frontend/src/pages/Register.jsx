@@ -4,7 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { UserPlus } from 'lucide-react';
+import { UserPlus, Loader2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const schema = yup.object({
   username: yup.string()
@@ -30,9 +31,10 @@ const Register = () => {
   const onSubmit = async (data) => {
     try {
       await registerUser(data.username, data.password);
+      toast.success('Đăng ký thành công!');
       navigate('/todos');
     } catch (error) {
-      alert(error.response?.data?.message || 'Đăng ký thất bại!');
+      toast.error(error.response?.data?.message || 'Đăng ký thất bại!');
     }
   };
 
@@ -79,9 +81,14 @@ const Register = () => {
             type="submit" 
             data-testid="register-submit-btn"
             disabled={isSubmitting}
-            className="w-full py-3 px-4 mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition-colors"
+            className="w-full py-3 px-4 mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
           >
-            {isSubmitting ? 'Đang đăng ký...' : 'Đăng ký ngay'}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="animate-spin" size={20} />
+                Đang đăng ký...
+              </>
+            ) : 'Đăng ký ngay'}
           </button>
         </form>
         <p className="mt-6 text-center text-gray-600 text-sm">

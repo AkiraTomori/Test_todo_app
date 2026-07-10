@@ -4,7 +4,8 @@ import axiosClient from '../api/axiosClient';
 import TodoItem from '../components/TodoItem';
 import TodoForm from '../components/TodoForm';
 import FilterBar from '../components/FilterBar';
-import { LogOut, CheckSquare } from 'lucide-react';
+import { LogOut, CheckSquare, Loader2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const TodoApp = () => {
   const { user, logout } = useContext(AuthContext);
@@ -40,9 +41,10 @@ const TodoApp = () => {
       const res = await axiosClient.post('/todos', data);
       // Luôn thêm vào mảng gốc, việc hiển thị hay ẩn ở tab nào sẽ do displayedTodos quyết định
       setTodos([res.data, ...todos]);
+      toast.success('Đã thêm công việc mới!');
     } catch (error) {
       console.error(error);
-      alert('Có lỗi khi thêm công việc');
+      toast.error('Có lỗi khi thêm công việc');
     }
   };
 
@@ -59,7 +61,7 @@ const TodoApp = () => {
       setTodos(todos.map(t => t.id === todo.id ? res.data : t));
     } catch (error) {
       console.error(error);
-      alert('Có lỗi khi cập nhật công việc');
+      toast.error('Có lỗi khi cập nhật trạng thái');
     }
   };
 
@@ -67,9 +69,10 @@ const TodoApp = () => {
     try {
       await axiosClient.delete(`/todos/${id}`);
       setTodos(todos.filter(t => t.id !== id));
+      toast.success('Đã xóa công việc');
     } catch (error) {
       console.error(error);
-      alert('Có lỗi khi xóa công việc');
+      toast.error('Có lỗi khi xóa công việc');
     }
   };
 
@@ -77,9 +80,10 @@ const TodoApp = () => {
     try {
       const res = await axiosClient.put(`/todos/${id}`, data);
       setTodos(todos.map(t => t.id === id ? res.data : t));
+      toast.success('Đã lưu thay đổi!');
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || 'Có lỗi khi cập nhật công việc');
+      toast.error(error.response?.data?.message || 'Có lỗi khi cập nhật công việc');
     }
   };
 
@@ -116,7 +120,7 @@ const TodoApp = () => {
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+            <Loader2 className="animate-spin text-indigo-600" size={40} />
           </div>
         ) : displayedTodos.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 border-dashed">
