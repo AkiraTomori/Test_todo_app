@@ -1,0 +1,52 @@
+name: Playwright E2E Tests
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Start services (Docker Compose)
+      run: docker-compose up -d --build
+
+    - name: Wait for services to be ready
+      run: |
+        echo "Waiting for backend and frontend to be up..."
+        # Đợi 20 giây để DB init, Prisma chạy seed và Server chạy lên
+        sleep 20
+        # Kiểm tra backend (curl) - nếu backend có healthcheck thì tốt, hiện tại giả lập sleep
+        curl -s http://localhost:3000/api/todos || echo "Backend might not be fully up yet, but we will try..."
+
+    - name: Install Testing Dependencies
+      working-directory: ./testing
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      working-directory: ./testing
+      run: npx playwright install --with-deps
+
+    - name: Run Playwright tests
+      working-directory: ./testing
+      run: npx playwright test
+
+    - name: Upload Playwright Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: testing/playwright-report/
+        retention-days: 14
