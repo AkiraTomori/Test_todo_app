@@ -20,9 +20,11 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install Backend Dependencies
+    - name: Install Backend Dependencies & Generate Prisma
       working-directory: ./backend
-      run: npm ci
+      run: |
+        npm ci
+        npx prisma generate
 
     - name: Install Testing Dependencies
       working-directory: ./testing
@@ -34,6 +36,9 @@ jobs:
 
     - name: Start services (Docker Compose)
       run: docker compose up -d --build
+
+    - name: Wait for backend to be ready
+      run: sleep 20
 
     - name: Install Playwright Browsers
       working-directory: ./testing
